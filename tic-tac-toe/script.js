@@ -1,4 +1,6 @@
-
+// Tic Tac Toe
+//
+//
 function createPlayer(name, marker) {
   return { name, marker };
 }
@@ -31,13 +33,15 @@ const Gameboard = (function () {
       [0, 4, 8],
       [2, 4, 6],
     ];
+
     for (let i = 0; i < winningCombos.length; i++) {
       const [a, b, c] = winningCombos[i];
       if (board[a] === board[b] && board[b] === board[c] && board[a] !== "") {
-        return board[a]; 
+        return board[a]; // "X" or "O"
       }
     }
-    return null; 
+
+    return null; // no winner found
   };
 
   const isBoardFull = () => {
@@ -48,6 +52,7 @@ const Gameboard = (function () {
     }
     return true;
   };
+
 
   return {
     getBoard: () => board,
@@ -60,6 +65,9 @@ const Gameboard = (function () {
 
 const GameController = (function () {
   let activePlayer = player1;
+  const boardDiv = document.querySelector("#board");
+
+
 
   const switchPlayerTurn = () => {
     activePlayer = activePlayer === player1 ? player2 : player1;
@@ -70,58 +78,56 @@ const GameController = (function () {
   const playRound = (index) => {
     const success = Gameboard.setMarker(index, activePlayer.marker);
     if (!success) {
-      return { status: "invalid" };
+      console.log("That spot is taken. Try again.");
+      return;
     }
 
     const winner = Gameboard.checkWinner();
     if (winner) {
-      return { status: "win", player: activePlayer };
+      console.log(`${activePlayer.name} wins!`);
+      return;
     }
 
     if (Gameboard.isBoardFull()) {
-      return { status: "tie" };
+      console.log("It is a tie.");
     }
 
     switchPlayerTurn();
-    return { status: "ongoing", player: activePlayer };
-  };
+
+    const renderBoard = () => {
+      boardDiv.innerHTML = ""; // clear old cells first
+
+      const board = Gameboard.getBoard();
+
+      board.forEach((cellValue, index) => {
+        const cellButton = document.createElement("button");
+        cellButton.textContent = cellValue;
+        cellButton.dataset.index = index; // stash the index on the element
+        boardDiv.appendChild(cellButton);
+      });
+    };
+  }
 
   return {
     getActivePlayer,
     switchPlayerTurn,
     playRound,
+    renderBoard,
   };
 })();
 
 const DisplayController = (function () {
   const boardDiv = document.querySelector("#board");
-  const messageDiv = document.querySelector("#message");
 
   const renderBoard = () => {
-    boardDiv.innerHTML = ""; 
+    boardDiv.innerHTML = ""; // clear old cells first
 
     const board = Gameboard.getBoard();
 
     board.forEach((cellValue, index) => {
       const cellButton = document.createElement("button");
       cellButton.textContent = cellValue;
-      cellButton.dataset.index = index; 
-
-      cellButton.addEventListener("click", () => {
-        const result = GameController.playRound(index);
-        renderBoard(); 
-
-        if (result.status === "invalid") {
-          messageDiv.textContent = "That spot is taken. Try again.";
-        } else if (result.status === "win") {
-          messageDiv.textContent = `${result.player.name} wins!`;
-        } else if (result.status === "tie") {
-          messageDiv.textContent = "It's a tie!";
-        } else {
-          messageDiv.textContent = `${result.player.name}'s turn`;
-        }
-      });
-
+      cellButton.dataset.index = index; // stash the index on the element
       boardDiv.appendChild(cellButton);
     });
   };
@@ -131,4 +137,13 @@ const DisplayController = (function () {
   };
 })();
 
+function getBoard() {
+  console.log(Gameboard.getBoard());
+}
+
 DisplayController.renderBoard();
+GameController.playRound(0); // Alice (X) plays top-left
+GameController.playRound(3); // Yash (O) plays
+GameController.playRound(1); // Alice
+GameController.playRound(4); // Yash
+GameController.playRound(2); // Alice — should complete top row, print "Alice wins!"
