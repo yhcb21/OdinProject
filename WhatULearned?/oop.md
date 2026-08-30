@@ -1,0 +1,15 @@
+- Single responsiblity
+  - a class/ pbject / module shhould only have one responsiblity.
+- tightly coupled objects 
+  - that rely so heavily on each other that removing or changing one will mean that you have to completeely change another one
+
+- SOLID Principles
+ - Single responsiblity
+- open closed principle 
+  - Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification
+- Liskov Substituation principle 
+  - derived or child classes must be able to replace their base or parent classes 
+- Interface segregation principle 
+  - clients should not be forced to depend on ethod that irrelevant to them, avoiding unnecessary dependines . 
+- dependency inversion principle 
+  - high level modules should not depend on low level modules. both should depend on abstraction.
