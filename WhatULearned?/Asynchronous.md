@@ -13,5 +13,4 @@
 
 - promise 
   - a promise is an object that might produce a value at some point in the future.
-
-
+  -
