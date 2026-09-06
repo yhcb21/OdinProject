@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <img src="#">
+  <button>Fetch</button>
+  <input type="text" placeholder="search">
+  <script>
+  const img = document.querySelector('img');
+  const btn = document.querySelector('button');
+  const input = document.querySelector('input');
+  btn.addEventListener('click',fetchgif);
+  function fetchgif() {
+    const searchTerm = input.value.trim();
+    fetch(`https://api.giphy.com/v1/gifs/random?api_key=daBMYrYSkA9R1AXNErkWKLr3CGdCKNZp&tag=${searchTerm}&rating=g`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      img.src = data.data.images.original.url;
+    });
+  }
+
+  </script>
+</body>
+</html>
