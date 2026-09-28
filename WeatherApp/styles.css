@@ -1,0 +1,23 @@
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  background-color: #f0f4f8;
+  transition: background-color 0.4s ease;
+}
+
+body.rain {
+  background-color: #607d8b;
+  color: white;
+}
+
+body.snow {
+  background-color: #b0bec5;
+}
+
+#weather-display {
+  margin-top: 20px;
+  text-align: center;
+}

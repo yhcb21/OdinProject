@@ -1,7 +1,7 @@
 
 async function getWeatherData(location) {
   try {
-    const API_KEY = "aaaeeeee hattt";
+    const API_KEY = "68cbea899b237c44ed887b6d3e4fee04";
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`);
 
     if (!response.ok) {
@@ -57,6 +57,11 @@ function displayWeather(data) {
     <p>Wind: ${data.wind}</p>
     <p>Description: ${data.description}</p>
   `;
+  document.body.className = "";
+  if (data.description.includes("rain")) document.body.className = "rain";
+  if (data.description.includes("snow")) document.body.className = "snow";
+
 }
+
 
 // getWeatherData("Gurugram");
